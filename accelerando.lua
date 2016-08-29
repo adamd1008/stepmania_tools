@@ -35,11 +35,11 @@ local function accelerando(startBeat, endBeat, startBpm, endBpm, div)
       local currentBeat = (beatStep * (i - 1)) + startBeat
       local currentBpm = (bpmStep * (i - 1)) + startBpm
       
-      print(currentBeat .. "\t" .. currentBpm)
-      
       bpms[currentBeat] = currentBpm
    end
    
+      print(currentBeat .. "\t" .. currentBpm)
+      
    local str = ""
    
    for k, v in pairs(bpms) do
