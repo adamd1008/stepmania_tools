@@ -20,40 +20,23 @@
 -- SOFTWARE.
 ]]
 
-local function accelerando(startBeat, endBeat, startBpm, endBpm, div)
+local function pause(bpm, startBeat, beats)
+   local bpm = assert(tonumber(bpm))
    local startBeat = assert(tonumber(startBeat))
-   local endBeat = assert(tonumber(endBeat))
-   local startBpm = assert(tonumber(startBpm))
-   local endBpm = assert(tonumber(endBpm))
-   local div = assert(tonumber(div))
+   local beats = assert(tonumber(beats))
    
-   assert(startBeat >= 0) -- First beat is 0 (v3.9)
-   assert(endBeat > 0)
-   assert(startBeat < endBeat)
-   assert(startBpm > 0)
-   assert(endBpm > 0)
-   assert(div > 0)
+   assert(bpm > 0)
+   assert(startBeat > 0)
+   assert(beats > 0)
    
-   local beatDiff = endBeat - startBeat
-   local bpmDiff = endBpm - startBpm
-   local total = div + 1
-   local beatStep = beatDiff / div
-   local bpmStep = bpmDiff / div
-   local str = ""
+   local bps = 60 / bpm
+   local time = bps * beats
    
-   for i = 1, total do
-      local currentBeat = (beatStep * (i - 1)) + startBeat
-      local currentBpm = (bpmStep * (i - 1)) + startBpm
-      
-      str = str .. string.format(",%03.3f=%03.3f", currentBeat, currentBpm)
-   end
-   
-   return str
+   return string.format("%03.3f=%03.3f", startBeat, time)
 end
 
-if #arg ~= 5 then
-   print("Usage: " .. arg[0] .. " <startBeat> <endBeat> <startBpm> <endBpm> " ..
-         "<div>")
+if #arg ~= 3 then
+   print("Usage: " .. arg[0] .. " <bpm> <startBeat> <beats>")
 else
-   print(accelerando(arg[1], arg[2], arg[3], arg[4], arg[5]))
+   print(pause(arg[1], arg[2], arg[3]))
 end
